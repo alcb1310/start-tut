@@ -2,7 +2,7 @@ import { ReactNode } from "react";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
 
-import appCss from "@/styles/app.css?url";
+// import appCss from "@/styles/app.css?url";
 
 export const Route = createRootRoute({
     head: () => ({
@@ -14,12 +14,12 @@ export const Route = createRootRoute({
             },
             { title: "My Tanstack Start Application" },
         ],
-        links: [
-            {
-                rel: "stylesheet",
-                href: appCss,
-            },
-        ],
+        // links: [
+        //     {
+        //         rel: "stylesheet",
+        //         href: appCss,
+        //     },
+        // ],
     }),
     component: RootComponent,
 });
