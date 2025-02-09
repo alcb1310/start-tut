@@ -2,6 +2,8 @@ import { ReactNode } from "react";
 import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
 
+import appCss from "@/styles/app.css?url";
+
 export const Route = createRootRoute({
     head: () => ({
         meta: [
@@ -11,6 +13,12 @@ export const Route = createRootRoute({
                 content: "width=device-width, intial-scale=",
             },
             { title: "My Tanstack Start Application" },
+        ],
+        links: [
+            {
+                rel: "stylesheet",
+                href: appCss,
+            },
         ],
     }),
     component: RootComponent,
@@ -30,7 +38,7 @@ function RootDocument({ children }: Readonly<{ children: ReactNode }>) {
             <head>
                 <Meta />
             </head>
-            <body>
+            <body className="bg-slate-50">
                 {children}
                 <Scripts />
             </body>
