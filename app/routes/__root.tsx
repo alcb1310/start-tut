@@ -3,6 +3,7 @@ import { Outlet, createRootRoute } from "@tanstack/react-router";
 import { Meta, Scripts } from "@tanstack/start";
 
 // import appCss from "@/styles/app.css?url";
+import "../styles/app.css";
 
 export const Route = createRootRoute({
     head: () => ({

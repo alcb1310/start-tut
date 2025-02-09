@@ -14,10 +14,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "@tailwindcss/postcss": "^4.0.5",
+    "@tailwindcss/vite": "^4.0.5",
     "@tanstack/react-router": "^1.101.0",
     "@tanstack/start": "^1.101.0",
-    "postcss": "^8.5.1",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "tailwindcss": "^4.0.5",
