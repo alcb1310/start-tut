@@ -2,6 +2,7 @@
 
 ## Project Description
 
+[![Netlify Status](https://api.netlify.com/api/v1/badges/39c03cda-f99b-49f6-bbd5-f9c08c9eace8/deploy-status)](https://app.netlify.com/sites/start-tut/deploys)
 With this project we are going to be learning on how to use [TanStack Start](https://tanstack.com/start/latest)
 
 ## Todo list
