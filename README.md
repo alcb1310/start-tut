@@ -10,6 +10,7 @@ With this project we are going to be learning on how to use [TanStack Start](htt
 
 - [x] Setup TanStack Start
 - [x] Install TailwindCSS
+- [ ] Deploy the project to Netlify
 - [ ] Install UI Library
 - [ ] Install icons library
 - [ ] Setup a testing framework
@@ -44,6 +45,10 @@ pnpm i
 
 ![TailwindCSS](https://img.shields.io/badge/tailwindcss-%2338B2AC.svg?style=for-the-badge&logo=tailwind-css&logoColor=white)
 
+### Deployment
+
+![Netlify](https://img.shields.io/badge/netlify-%23000000.svg?style=for-the-badge&logo=netlify&logoColor=#00C7B7)
+
 ### Source control
 
 ![Git](https://img.shields.io/badge/git-%23F05033.svg?style=for-the-badge&logo=git&logoColor=white)
@@ -56,4 +61,6 @@ pnpm i
 ## Author
 
 Andres Court
+
 [![X](https://img.shields.io/badge/X-%23000000.svg?style=for-the-badge&logo=X&logoColor=white)](https://x.com/alcb1310)
+[![LinkedIn](https://img.shields.io/badge/linkedin-%230077B5.svg?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/alcb1310)
