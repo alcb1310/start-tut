@@ -9,7 +9,7 @@ With this project we are going to be learning on how to use [TanStack Start](htt
 ### Project Setup
 
 - [x] Setup TanStack Start
-- [ ] Install TailwindCSS
+- [x] Install TailwindCSS
 - [ ] Install UI Library
 - [ ] Install icons library
 - [ ] Setup a testing framework
