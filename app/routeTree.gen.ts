@@ -11,10 +11,20 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
+import { Route as LoginImport } from './routes/login'
 import { Route as AuthImport } from './routes/_auth'
 import { Route as AuthIndexImport } from './routes/_auth/index'
+import { Route as AuthTransaccionesPresupuestoImport } from './routes/_auth/transacciones/presupuesto'
+import { Route as AuthTransaccionesFacturasImport } from './routes/_auth/transacciones/facturas'
+import { Route as AuthTransaccionesCierreImport } from './routes/_auth/transacciones/cierre'
 
 // Create/Update Routes
+
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
+  getParentRoute: () => rootRoute,
+} as any)
 
 const AuthRoute = AuthImport.update({
   id: '/_auth',
@@ -24,6 +34,25 @@ const AuthRoute = AuthImport.update({
 const AuthIndexRoute = AuthIndexImport.update({
   id: '/',
   path: '/',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTransaccionesPresupuestoRoute =
+  AuthTransaccionesPresupuestoImport.update({
+    id: '/transacciones/presupuesto',
+    path: '/transacciones/presupuesto',
+    getParentRoute: () => AuthRoute,
+  } as any)
+
+const AuthTransaccionesFacturasRoute = AuthTransaccionesFacturasImport.update({
+  id: '/transacciones/facturas',
+  path: '/transacciones/facturas',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTransaccionesCierreRoute = AuthTransaccionesCierreImport.update({
+  id: '/transacciones/cierre',
+  path: '/transacciones/cierre',
   getParentRoute: () => AuthRoute,
 } as any)
 
@@ -38,11 +67,39 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof AuthImport
       parentRoute: typeof rootRoute
     }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
     '/_auth/': {
       id: '/_auth/'
       path: '/'
       fullPath: '/'
       preLoaderRoute: typeof AuthIndexImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transacciones/cierre': {
+      id: '/_auth/transacciones/cierre'
+      path: '/transacciones/cierre'
+      fullPath: '/transacciones/cierre'
+      preLoaderRoute: typeof AuthTransaccionesCierreImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transacciones/facturas': {
+      id: '/_auth/transacciones/facturas'
+      path: '/transacciones/facturas'
+      fullPath: '/transacciones/facturas'
+      preLoaderRoute: typeof AuthTransaccionesFacturasImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transacciones/presupuesto': {
+      id: '/_auth/transacciones/presupuesto'
+      path: '/transacciones/presupuesto'
+      fullPath: '/transacciones/presupuesto'
+      preLoaderRoute: typeof AuthTransaccionesPresupuestoImport
       parentRoute: typeof AuthImport
     }
   }
@@ -52,44 +109,82 @@ declare module '@tanstack/react-router' {
 
 interface AuthRouteChildren {
   AuthIndexRoute: typeof AuthIndexRoute
+  AuthTransaccionesCierreRoute: typeof AuthTransaccionesCierreRoute
+  AuthTransaccionesFacturasRoute: typeof AuthTransaccionesFacturasRoute
+  AuthTransaccionesPresupuestoRoute: typeof AuthTransaccionesPresupuestoRoute
 }
 
 const AuthRouteChildren: AuthRouteChildren = {
   AuthIndexRoute: AuthIndexRoute,
+  AuthTransaccionesCierreRoute: AuthTransaccionesCierreRoute,
+  AuthTransaccionesFacturasRoute: AuthTransaccionesFacturasRoute,
+  AuthTransaccionesPresupuestoRoute: AuthTransaccionesPresupuestoRoute,
 }
 
 const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
 
 export interface FileRoutesByFullPath {
   '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
   '/': typeof AuthIndexRoute
+  '/transacciones/cierre': typeof AuthTransaccionesCierreRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
+  '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
 }
 
 export interface FileRoutesByTo {
+  '/login': typeof LoginRoute
   '/': typeof AuthIndexRoute
+  '/transacciones/cierre': typeof AuthTransaccionesCierreRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
+  '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
   '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
   '/_auth/': typeof AuthIndexRoute
+  '/_auth/transacciones/cierre': typeof AuthTransaccionesCierreRoute
+  '/_auth/transacciones/facturas': typeof AuthTransaccionesFacturasRoute
+  '/_auth/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '' | '/'
+  fullPaths:
+    | ''
+    | '/login'
+    | '/'
+    | '/transacciones/cierre'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuesto'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/_auth' | '/_auth/'
+  to:
+    | '/login'
+    | '/'
+    | '/transacciones/cierre'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuesto'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/login'
+    | '/_auth/'
+    | '/_auth/transacciones/cierre'
+    | '/_auth/transacciones/facturas'
+    | '/_auth/transacciones/presupuesto'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
   AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
   AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -102,17 +197,36 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/_auth"
+        "/_auth",
+        "/login"
       ]
     },
     "/_auth": {
       "filePath": "_auth.tsx",
       "children": [
-        "/_auth/"
+        "/_auth/",
+        "/_auth/transacciones/cierre",
+        "/_auth/transacciones/facturas",
+        "/_auth/transacciones/presupuesto"
       ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
     },
     "/_auth/": {
       "filePath": "_auth/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/transacciones/cierre": {
+      "filePath": "_auth/transacciones/cierre.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/transacciones/facturas": {
+      "filePath": "_auth/transacciones/facturas.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/transacciones/presupuesto": {
+      "filePath": "_auth/transacciones/presupuesto.tsx",
       "parent": "/_auth"
     }
   }
