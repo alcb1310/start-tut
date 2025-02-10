@@ -1,6 +1,13 @@
-import { Box, Collapse, ListItemButton, ListItemText } from "@mui/material";
+import {
+    Box,
+    Collapse,
+    ListItemButton,
+    ListItemIcon,
+    ListItemText,
+} from "@mui/material";
 import { Link } from "@tanstack/react-router";
 import { useState } from "react";
+import { Receipt } from "lucide-react";
 
 type TransactionsProps = {
     route: string;
@@ -44,6 +51,7 @@ export default function Transactions({ route }: TransactionsProps) {
                     component={Link}
                     to="/transacciones/facturas"
                 >
+                    <Receipt size={16} strokeWidth={1} />
                     <ListItemText primary="Factura" />
                 </ListItemButton>
                 <ListItemButton
