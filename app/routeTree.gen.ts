@@ -8,63 +8,204 @@
 // You should NOT make any changes in this file as it will be overwritten.
 // Additionally, you should also exclude this file from your linter and/or formatter to prevent it from being checked or modified.
 
+import { createFileRoute } from '@tanstack/react-router'
+
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as IndexImport } from './routes/index'
+import { Route as LoginImport } from './routes/login'
+import { Route as AuthImport } from './routes/_auth'
+import { Route as AuthIndexImport } from './routes/_auth/index'
+
+// Create Virtual Routes
+
+const AuthTransaccionesPresupuestoLazyImport = createFileRoute(
+  '/_auth/transacciones/presupuesto',
+)()
+const AuthTransaccionesFacturasLazyImport = createFileRoute(
+  '/_auth/transacciones/facturas',
+)()
+const AuthTransaccionesCierreLazyImport = createFileRoute(
+  '/_auth/transacciones/cierre',
+)()
 
 // Create/Update Routes
 
-const IndexRoute = IndexImport.update({
-  id: '/',
-  path: '/',
+const LoginRoute = LoginImport.update({
+  id: '/login',
+  path: '/login',
   getParentRoute: () => rootRoute,
 } as any)
+
+const AuthRoute = AuthImport.update({
+  id: '/_auth',
+  getParentRoute: () => rootRoute,
+} as any)
+
+const AuthIndexRoute = AuthIndexImport.update({
+  id: '/',
+  path: '/',
+  getParentRoute: () => AuthRoute,
+} as any)
+
+const AuthTransaccionesPresupuestoLazyRoute =
+  AuthTransaccionesPresupuestoLazyImport.update({
+    id: '/transacciones/presupuesto',
+    path: '/transacciones/presupuesto',
+    getParentRoute: () => AuthRoute,
+  } as any).lazy(() =>
+    import('./routes/_auth/transacciones/presupuesto.lazy').then(
+      (d) => d.Route,
+    ),
+  )
+
+const AuthTransaccionesFacturasLazyRoute =
+  AuthTransaccionesFacturasLazyImport.update({
+    id: '/transacciones/facturas',
+    path: '/transacciones/facturas',
+    getParentRoute: () => AuthRoute,
+  } as any).lazy(() =>
+    import('./routes/_auth/transacciones/facturas.lazy').then((d) => d.Route),
+  )
+
+const AuthTransaccionesCierreLazyRoute =
+  AuthTransaccionesCierreLazyImport.update({
+    id: '/transacciones/cierre',
+    path: '/transacciones/cierre',
+    getParentRoute: () => AuthRoute,
+  } as any).lazy(() =>
+    import('./routes/_auth/transacciones/cierre.lazy').then((d) => d.Route),
+  )
 
 // Populate the FileRoutesByPath interface
 
 declare module '@tanstack/react-router' {
   interface FileRoutesByPath {
-    '/': {
-      id: '/'
+    '/_auth': {
+      id: '/_auth'
+      path: ''
+      fullPath: ''
+      preLoaderRoute: typeof AuthImport
+      parentRoute: typeof rootRoute
+    }
+    '/login': {
+      id: '/login'
+      path: '/login'
+      fullPath: '/login'
+      preLoaderRoute: typeof LoginImport
+      parentRoute: typeof rootRoute
+    }
+    '/_auth/': {
+      id: '/_auth/'
       path: '/'
       fullPath: '/'
-      preLoaderRoute: typeof IndexImport
-      parentRoute: typeof rootRoute
+      preLoaderRoute: typeof AuthIndexImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transacciones/cierre': {
+      id: '/_auth/transacciones/cierre'
+      path: '/transacciones/cierre'
+      fullPath: '/transacciones/cierre'
+      preLoaderRoute: typeof AuthTransaccionesCierreLazyImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transacciones/facturas': {
+      id: '/_auth/transacciones/facturas'
+      path: '/transacciones/facturas'
+      fullPath: '/transacciones/facturas'
+      preLoaderRoute: typeof AuthTransaccionesFacturasLazyImport
+      parentRoute: typeof AuthImport
+    }
+    '/_auth/transacciones/presupuesto': {
+      id: '/_auth/transacciones/presupuesto'
+      path: '/transacciones/presupuesto'
+      fullPath: '/transacciones/presupuesto'
+      preLoaderRoute: typeof AuthTransaccionesPresupuestoLazyImport
+      parentRoute: typeof AuthImport
     }
   }
 }
 
 // Create and export the route tree
 
+interface AuthRouteChildren {
+  AuthIndexRoute: typeof AuthIndexRoute
+  AuthTransaccionesCierreLazyRoute: typeof AuthTransaccionesCierreLazyRoute
+  AuthTransaccionesFacturasLazyRoute: typeof AuthTransaccionesFacturasLazyRoute
+  AuthTransaccionesPresupuestoLazyRoute: typeof AuthTransaccionesPresupuestoLazyRoute
+}
+
+const AuthRouteChildren: AuthRouteChildren = {
+  AuthIndexRoute: AuthIndexRoute,
+  AuthTransaccionesCierreLazyRoute: AuthTransaccionesCierreLazyRoute,
+  AuthTransaccionesFacturasLazyRoute: AuthTransaccionesFacturasLazyRoute,
+  AuthTransaccionesPresupuestoLazyRoute: AuthTransaccionesPresupuestoLazyRoute,
+}
+
+const AuthRouteWithChildren = AuthRoute._addFileChildren(AuthRouteChildren)
+
 export interface FileRoutesByFullPath {
-  '/': typeof IndexRoute
+  '': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/': typeof AuthIndexRoute
+  '/transacciones/cierre': typeof AuthTransaccionesCierreLazyRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasLazyRoute
+  '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoLazyRoute
 }
 
 export interface FileRoutesByTo {
-  '/': typeof IndexRoute
+  '/login': typeof LoginRoute
+  '/': typeof AuthIndexRoute
+  '/transacciones/cierre': typeof AuthTransaccionesCierreLazyRoute
+  '/transacciones/facturas': typeof AuthTransaccionesFacturasLazyRoute
+  '/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoLazyRoute
 }
 
 export interface FileRoutesById {
   __root__: typeof rootRoute
-  '/': typeof IndexRoute
+  '/_auth': typeof AuthRouteWithChildren
+  '/login': typeof LoginRoute
+  '/_auth/': typeof AuthIndexRoute
+  '/_auth/transacciones/cierre': typeof AuthTransaccionesCierreLazyRoute
+  '/_auth/transacciones/facturas': typeof AuthTransaccionesFacturasLazyRoute
+  '/_auth/transacciones/presupuesto': typeof AuthTransaccionesPresupuestoLazyRoute
 }
 
 export interface FileRouteTypes {
   fileRoutesByFullPath: FileRoutesByFullPath
-  fullPaths: '/'
+  fullPaths:
+    | ''
+    | '/login'
+    | '/'
+    | '/transacciones/cierre'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuesto'
   fileRoutesByTo: FileRoutesByTo
-  to: '/'
-  id: '__root__' | '/'
+  to:
+    | '/login'
+    | '/'
+    | '/transacciones/cierre'
+    | '/transacciones/facturas'
+    | '/transacciones/presupuesto'
+  id:
+    | '__root__'
+    | '/_auth'
+    | '/login'
+    | '/_auth/'
+    | '/_auth/transacciones/cierre'
+    | '/_auth/transacciones/facturas'
+    | '/_auth/transacciones/presupuesto'
   fileRoutesById: FileRoutesById
 }
 
 export interface RootRouteChildren {
-  IndexRoute: typeof IndexRoute
+  AuthRoute: typeof AuthRouteWithChildren
+  LoginRoute: typeof LoginRoute
 }
 
 const rootRouteChildren: RootRouteChildren = {
-  IndexRoute: IndexRoute,
+  AuthRoute: AuthRouteWithChildren,
+  LoginRoute: LoginRoute,
 }
 
 export const routeTree = rootRoute
@@ -77,11 +218,37 @@ export const routeTree = rootRoute
     "__root__": {
       "filePath": "__root.tsx",
       "children": [
-        "/"
+        "/_auth",
+        "/login"
       ]
     },
-    "/": {
-      "filePath": "index.tsx"
+    "/_auth": {
+      "filePath": "_auth.tsx",
+      "children": [
+        "/_auth/",
+        "/_auth/transacciones/cierre",
+        "/_auth/transacciones/facturas",
+        "/_auth/transacciones/presupuesto"
+      ]
+    },
+    "/login": {
+      "filePath": "login.tsx"
+    },
+    "/_auth/": {
+      "filePath": "_auth/index.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/transacciones/cierre": {
+      "filePath": "_auth/transacciones/cierre.lazy.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/transacciones/facturas": {
+      "filePath": "_auth/transacciones/facturas.lazy.tsx",
+      "parent": "/_auth"
+    },
+    "/_auth/transacciones/presupuesto": {
+      "filePath": "_auth/transacciones/presupuesto.lazy.tsx",
+      "parent": "/_auth"
     }
   }
 }

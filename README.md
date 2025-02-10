@@ -11,15 +11,15 @@ With this project we are going to be learning on how to use [TanStack Start](htt
 
 - [x] Setup TanStack Start
 - [x] Install TailwindCSS
-- [ ] Deploy the project to Netlify
-- [ ] Install UI Library
-- [ ] Install icons library
+- [x] Deploy the project to Netlify
+- [x] Install UI Library
+- [x] Install icons library
 - [ ] Setup a testing framework
 
 ### Project features
 
 - [ ] Add authentication
-- [ ] Add authenticated and non authenticated layouts
+- [x] Add authenticated and non authenticated layouts
 - [ ] Query an API for data
 - [ ] Display the API information
 - [ ] Send data back to the API
