@@ -13,7 +13,7 @@ With this project we are going to be learning on how to use [TanStack Start](htt
 - [x] Install TailwindCSS
 - [x] Deploy the project to Netlify
 - [x] Install UI Library
-- [ ] Install icons library
+- [x] Install icons library
 - [ ] Setup a testing framework
 
 ### Project features
